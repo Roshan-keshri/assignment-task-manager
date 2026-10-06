@@ -1,6 +1,8 @@
 import { deleteTask } from "../services/taskApi";
+import { StatusBadge, PriorityBadge } from "./Badge";
+import { formatDate } from "../utils/format";
 
-function TaskCard({ task, onTaskDeleted , onEdit , onView}) {
+function TaskCard({ task, onTaskDeleted, onEdit, onView }) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this task?")) return;
 
@@ -13,16 +15,34 @@ function TaskCard({ task, onTaskDeleted , onEdit , onView}) {
   };
 
   return (
-    <div>
-      <h3>{task.title}</h3>
-      <p>{task.description}</p>
-      <p>Status: {task.status}</p>
-      <p>Priority: {task.priority}</p>
-      <p>Created: {new Date(task.createdAt).toLocaleDateString()}</p>
-      <button onClick={() => onView(task)}>View</button>
-      <button onClick={() => onEdit(task)}>Edit</button>
-      <button onClick={handleDelete}>Delete</button>
-    </div>
+    <article className="card">
+      <div className="badges">
+        <StatusBadge status={task.status} />
+        <PriorityBadge priority={task.priority} />
+      </div>
+
+      <h3 className="card-title">{task.title}</h3>
+      <p className="card-desc">{task.description}</p>
+
+      <dl className="card-meta">
+        <div>
+          <dt>Created</dt>
+          <dd>{formatDate(task.createdAt)}</dd>
+        </div>
+        {task.dueDate && (
+          <div>
+            <dt>Due</dt>
+            <dd>{formatDate(task.dueDate)}</dd>
+          </div>
+        )}
+      </dl>
+
+      <div className="card-actions">
+        <button className="btn btn-secondary" onClick={() => onView(task)}>View</button>
+        <button className="btn btn-secondary" onClick={() => onEdit(task)}>Edit</button>
+        <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+      </div>
+    </article>
   );
 }
 

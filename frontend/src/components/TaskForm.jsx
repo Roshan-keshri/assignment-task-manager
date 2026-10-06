@@ -47,58 +47,81 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="panel form" id="task-form" onSubmit={handleSubmit}>
       <h2>{editTask ? "Edit Task" : "Create Task"}</h2>
 
-      <input
-        type="text"
-        name="title"
-        placeholder="Task title"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
+      <div className="field">
+        <label htmlFor="title">
+          Title <span className="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="title"
+          type="text"
+          name="title"
+          placeholder="e.g. Prepare weekly report"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <textarea
-        name="description"
-        placeholder="Description"
-        value={form.description}
-        onChange={handleChange}
-        required
-      />
+      <div className="field">
+        <label htmlFor="description">
+          Description <span className="required" aria-hidden="true">*</span>
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          placeholder="What needs to be done?"
+          value={form.description}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <select name="status" value={form.status} onChange={handleChange}>
-        <option value="pending">Pending</option>
-        <option value="in_progress">In Progress</option>
-        <option value="completed">Completed</option>
-      </select>
+      <div className="field-row">
+        <div className="field">
+          <label htmlFor="status">Status</label>
+          <select id="status" name="status" value={form.status} onChange={handleChange}>
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
 
-      <select
-        name="priority"
-        value={form.priority}
-        onChange={handleChange}
-      >
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
+        <div className="field">
+          <label htmlFor="priority">Priority</label>
+          <select id="priority" name="priority" value={form.priority} onChange={handleChange}>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
 
-      <input
-        type="date"
-        name="dueDate"
-        value={form.dueDate || ""}
-        onChange={handleChange}
-      />
+      <div className="field">
+        <label htmlFor="dueDate">Due date</label>
+        <input
+          id="dueDate"
+          type="date"
+          name="dueDate"
+          value={form.dueDate || ""}
+          onChange={handleChange}
+        />
+      </div>
 
-      <button type="submit">
-        {editTask ? "Update Task" : "Create Task"}
-      </button>
-
-      {editTask && (
-        <button type="button" onClick={handleCancel}>
-          Cancel
+      <div className="form-actions">
+        <button type="submit" className="btn btn-primary">
+          {editTask ? "Update Task" : "Create Task"}
         </button>
-      )}
+
+        {editTask && (
+          <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
