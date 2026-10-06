@@ -1,6 +1,6 @@
 import { deleteTask } from "../services/taskApi";
 
-function TaskCard({ task, onTaskDeleted , onEdit}) {
+function TaskCard({ task, onTaskDeleted , onEdit , onView}) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this task?")) return;
 
@@ -19,7 +19,7 @@ function TaskCard({ task, onTaskDeleted , onEdit}) {
       <p>Status: {task.status}</p>
       <p>Priority: {task.priority}</p>
       <p>Created: {new Date(task.createdAt).toLocaleDateString()}</p>
-
+      <button onClick={() => onView(task)}>View</button>
       <button onClick={() => onEdit(task)}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
     </div>

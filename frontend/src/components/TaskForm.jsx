@@ -13,7 +13,7 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
   const [form, setForm] = useState(emptyForm);
 
   useEffect(() => {
-    if (editTask) setForm(editTask);
+    setForm(editTask || emptyForm);
   }, [editTask]);
 
   const handleChange = (e) => {
@@ -41,15 +41,22 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
     }
   };
 
+  const handleCancel = () => {
+    setForm(emptyForm);
+    cancelEdit();
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>{editTask ? "Edit Task" : "Create Task"}</h2>
 
       <input
+        type="text"
         name="title"
         placeholder="Task title"
         value={form.title}
         onChange={handleChange}
+        required
       />
 
       <textarea
@@ -57,6 +64,7 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
         placeholder="Description"
         value={form.description}
         onChange={handleChange}
+        required
       />
 
       <select name="status" value={form.status} onChange={handleChange}>
@@ -65,7 +73,11 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
         <option value="completed">Completed</option>
       </select>
 
-      <select name="priority" value={form.priority} onChange={handleChange}>
+      <select
+        name="priority"
+        value={form.priority}
+        onChange={handleChange}
+      >
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
@@ -83,7 +95,7 @@ function TaskForm({ onTaskSaved, editTask, cancelEdit }) {
       </button>
 
       {editTask && (
-        <button type="button" onClick={cancelEdit}>
+        <button type="button" onClick={handleCancel}>
           Cancel
         </button>
       )}
