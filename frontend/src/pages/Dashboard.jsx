@@ -52,18 +52,28 @@ function Dashboard() {
     )
     .filter((task) => status === "all" || task.status === status)
     .filter((task) => priority === "all" || task.priority === priority)
-    .sort((a, b) => {
-      if (sort === "newest")
-        return new Date(b.createdAt) - new Date(a.createdAt);
+.sort((a, b) => {
+  if (sort === "newest")
+    return new Date(b.createdAt) - new Date(a.createdAt);
 
-      if (sort === "oldest")
-        return new Date(a.createdAt) - new Date(b.createdAt);
+  if (sort === "oldest")
+    return new Date(a.createdAt) - new Date(b.createdAt);
 
-      if (sort === "dueDate")
-        return new Date(a.dueDate) - new Date(b.dueDate);
+  if (sort === "dueDate")
+    return new Date(a.dueDate) - new Date(b.dueDate);
 
-      return 0;
-    });
+  if (sort === "priorityHigh") {
+    const order = { high: 3, medium: 2, low: 1 };
+    return order[b.priority] - order[a.priority];
+  }
+
+  if (sort === "priorityLow") {
+    const order = { high: 3, medium: 2, low: 1 };
+    return order[a.priority] - order[b.priority];
+  }
+
+  return 0;
+});
 
   // Summary numbers are derived from the tasks array - no extra API calls.
   const stats = [
@@ -187,6 +197,8 @@ function Dashboard() {
                   <option value="newest">Newest</option>
                   <option value="oldest">Oldest</option>
                   <option value="dueDate">Due Date</option>
+                  <option value="priorityHigh">Priority: High to Low</option>
+                  <option value="priorityLow">Priority: Low to High</option>
                 </select>
               </div>
 
